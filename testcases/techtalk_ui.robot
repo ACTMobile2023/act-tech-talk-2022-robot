@@ -89,7 +89,7 @@ I tick the “Confirm to join experience section”
     Run keyword if     ${is_experience} is ${True}    Common - Click on element    ${chk_confirm}
 
 I click "Ok"
-    Common - Click on element    ${btn_confirm}
+    Common - Click on element    //button[@type='submit']
 
 I can register successfully
     Wait until page contains element    ${dialog_success}
