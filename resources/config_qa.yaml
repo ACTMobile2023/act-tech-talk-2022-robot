@@ -1,0 +1,8 @@
+
+host: http://149.28.141.129
+
+db_host: 149.28.141.129
+db_port: 3306
+db_username: techtalks2022
+db_password: Ascend@techtalks2022
+db_name: techtalks2022

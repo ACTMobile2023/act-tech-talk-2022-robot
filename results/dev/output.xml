@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 4.1 (Python 3.7.3 on darwin)" generated="20220915 16:10:36.781" rpa="false" schemaversion="2">
+<suite id="s1" name="Techtalk Api" source="/Users/duongnq/workspace/act-tech-talk-2022-robot/testcases/techtalk_api.robot">
+<kw name="Connect to techtalk database" library="database_keywords" type="SETUP">
+<kw name="Connect To Database" library="DatabaseLibrary">
+<arg>pymysql</arg>
+<arg>${db_name}</arg>
+<arg>${db_username}</arg>
+<arg>${db_password}</arg>
+<arg>${db_host}</arg>
+<arg>${db_port}</arg>
+<doc>Loads the DB API 2.0 module given `dbapiModuleName` then uses it to
+connect to the database using `dbName`, `dbUsername`, and `dbPassword`.</doc>
+<msg timestamp="20220915 16:10:37.802" level="INFO">Connecting using : pymysql.connect(db=techtalks2022, user=techtalks2022, passwd=Ascend@techtalks2022, host=149.28.141.129, port=3306, charset=None) </msg>
+<status status="PASS" starttime="20220915 16:10:37.775" endtime="20220915 16:10:38.083"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:37.774" endtime="20220915 16:10:38.084"/>
+</kw>
+<test id="s1-t1" name="TC002 - User can registration and update and delete registration successfully">
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${attender}</var>
+<arg>full_name=Duong</arg>
+<arg>date_of_birth=1993-02-12T07:34:53.135Z</arg>
+<arg>email=duong@gmail.com</arg>
+<arg>organization=FPT</arg>
+<arg>role=QA</arg>
+<arg>months_of_experience=12</arg>
+<arg>is_join_experience_section=true</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220915 16:10:38.086" level="INFO">${attender} = {'full_name': 'Duong', 'date_of_birth': '1993-02-12T07:34:53.135Z', 'email': 'duong@gmail.com', 'organization': 'FPT', 'role': 'QA', 'months_of_experience': '12', 'is_join_experience_section': 'true'}</msg>
+<status status="PASS" starttime="20220915 16:10:38.085" endtime="20220915 16:10:38.086"/>
+</kw>
+<kw name="API - 200 - Add new attender">
+<var>${id}</var>
+<arg>${attender}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Accept=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220915 16:10:38.087" level="INFO">${headers} = {'Accept': 'application/json'}</msg>
+<status status="PASS" starttime="20220915 16:10:38.087" endtime="20220915 16:10:38.087"/>
+</kw>
+<kw name="Post" library="REST">
+<arg>${host}:${port}/tech-talk/attenders</arg>
+<arg>headers=${headers}</arg>
+<arg>body=${attender}</arg>
+<tag>http</tag>
+<doc>*Sends a POST request to the endpoint.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.088" endtime="20220915 16:10:38.324"/>
+</kw>
+<kw name="Rest Extract" library="rest_util">
+<var>${response}</var>
+<msg timestamp="20220915 16:10:38.325" level="INFO">
+{
+    "request": {
+        "method": "POST",
+        "url": "http://149.28.141.129:8765/tech-talk/attenders",
+        "scheme": "http",
+        "netloc": "149.28.141.129:8765",
+        "path": "/tech-talk/attenders",
+        "query": {},
+        "body": {
+            "full_name": "Duong",
+            "date_of_birth": "1993-02-12T07:34:53.135Z",
+            "email": "duong@gmail.com",
+            "organization": "FPT",
+            "role": "QA",
+            "months_of_experience": "12",
+            "is_join_experience_section": "true"
+        },
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "User-Agent": "RESTinstance/1.0.0rc4"
+        },
+        "proxies": {},
+        "timeout": [
+            null,
+            null
+        ],
+        "cert": null,
+        "sslVerify": true,
+        "allowRedirects": true,
+        "timestamp": {
+            "utc": "2022-09-15T09:10:38.279387+00:00",
+            "local": "2022-09-15T16:10:38.279387+07:00"
+        }
+    },
+    "response": {
+        "seconds": 0.172465,
+        "status": 200,
+        "body": {
+            "status": {
+                "code": "success",
+                "message": "Success"
+            },
+            "data": {
+                "id": 56
+            }
+        },
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Transfer-Encoding": "chunked",
+            "Date": "Thu, 15 Sep 2022 09:10:38 GMT"
+        }
+    }
+}</msg>
+<msg timestamp="20220915 16:10:38.325" level="INFO">${response} = {'request': {'method': 'POST', 'url': 'http://149.28.141.129:8765/tech-talk/attenders', 'scheme': 'http', 'netloc': '149.28.141.129:8765', 'path': '/tech-talk/attenders', 'query': {}, 'body': {'full_n...</msg>
+<status status="PASS" starttime="20220915 16:10:38.324" endtime="20220915 16:10:38.325"/>
+</kw>
+<kw name="Set Variable" library="BuiltIn">
+<var>${id}</var>
+<arg>${response["response"]["body"]["data"]["id"]}</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20220915 16:10:38.327" level="INFO">${id} = 56</msg>
+<status status="PASS" starttime="20220915 16:10:38.326" endtime="20220915 16:10:38.327"/>
+</kw>
+<kw name="Common - Http status code is &quot;200&quot;" library="api_keywords" sourcename="Common - Http status code is &quot;${code}&quot;">
+<kw name="Integer" library="REST">
+<arg>response status</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON integer.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.328" endtime="20220915 16:10:38.330"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.327" endtime="20220915 16:10:38.330"/>
+</kw>
+<kw name="Common - status code is &quot;success&quot;" library="api_keywords" sourcename="Common - status code is &quot;${code}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.code</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.332" endtime="20220915 16:10:38.363"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.330" endtime="20220915 16:10:38.363"/>
+</kw>
+<kw name="Common - status message is &quot;Success&quot;" library="api_keywords" sourcename="Common - status message is &quot;${message}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.message</arg>
+<arg>${message}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.364" endtime="20220915 16:10:38.386"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.363" endtime="20220915 16:10:38.386"/>
+</kw>
+<msg timestamp="20220915 16:10:38.386" level="INFO">${id} = 56</msg>
+<status status="PASS" starttime="20220915 16:10:38.086" endtime="20220915 16:10:38.386"/>
+</kw>
+<kw name="Database - attender - Verify all information is correct" library="database_keywords">
+<arg>${id}</arg>
+<arg>${attender}</arg>
+<kw name="Database - Query attender by id" library="database_keywords">
+<var>${actual_attender}</var>
+<arg>${id}</arg>
+<kw name="Query" library="DatabaseLibrary">
+<var>${attender}</var>
+<arg>SELECT * FROM attender WHERE id = '${id}'</arg>
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional
+input `sansTran` to True to run command without an explicit transaction commit or rollback.
+Set optional input `returnAsDict` to True to return values as a list of dictionaries.</doc>
+<msg timestamp="20220915 16:10:38.387" level="INFO">Executing : Query  |  SELECT * FROM attender WHERE id = '56' </msg>
+<msg timestamp="20220915 16:10:38.514" level="INFO">${attender} = ((56, 'Duong', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1),)</msg>
+<status status="PASS" starttime="20220915 16:10:38.387" endtime="20220915 16:10:38.514"/>
+</kw>
+<msg timestamp="20220915 16:10:38.515" level="INFO">${actual_attender} = (56, 'Duong', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1)</msg>
+<status status="PASS" starttime="20220915 16:10:38.386" endtime="20220915 16:10:38.515"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[1]}</arg>
+<arg>${expected_attender["full_name"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.515" endtime="20220915 16:10:38.517"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[2]}</arg>
+<arg>${expected_attender["email"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.517" endtime="20220915 16:10:38.518"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${actual_dob_str}</var>
+<arg>${actual_attender[3]}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20220915 16:10:38.519" level="INFO">${actual_dob_str} = 1993-02-12 00:00:00</msg>
+<status status="PASS" starttime="20220915 16:10:38.518" endtime="20220915 16:10:38.519"/>
+</kw>
+<kw name="Get Substring" library="String">
+<var>${actual_dob}</var>
+<arg>${actual_dob_str}</arg>
+<arg>0</arg>
+<arg>10</arg>
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<msg timestamp="20220915 16:10:38.520" level="INFO">${actual_dob} = 1993-02-12</msg>
+<status status="PASS" starttime="20220915 16:10:38.519" endtime="20220915 16:10:38.520"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${expected_dob_str}</var>
+<arg>${expected_attender["date_of_birth"]}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20220915 16:10:38.521" level="INFO">${expected_dob_str} = 1993-02-12T07:34:53.135Z</msg>
+<status status="PASS" starttime="20220915 16:10:38.520" endtime="20220915 16:10:38.521"/>
+</kw>
+<kw name="Get Substring" library="String">
+<var>${expected_dob}</var>
+<arg>${expected_dob_str}</arg>
+<arg>0</arg>
+<arg>10</arg>
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<msg timestamp="20220915 16:10:38.521" level="INFO">${expected_dob} = 1993-02-12</msg>
+<status status="PASS" starttime="20220915 16:10:38.521" endtime="20220915 16:10:38.521"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_dob}</arg>
+<arg>${expected_dob}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.522" endtime="20220915 16:10:38.522"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[5]}</arg>
+<arg>${expected_attender["organization"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.523" endtime="20220915 16:10:38.526"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[6]}</arg>
+<arg>${expected_attender["role"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.526" endtime="20220915 16:10:38.528"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[7]}</arg>
+<arg>${expected_attender["months_of_experience"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20220915 16:10:38.530" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20220915 16:10:38.528" endtime="20220915 16:10:38.530"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.386" endtime="20220915 16:10:38.530"/>
+</kw>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${updated_attender}</var>
+<arg>full_name=Duong_edited</arg>
+<arg>date_of_birth=1993-02-12T07:34:53.135Z</arg>
+<arg>email=duong@gmail.com</arg>
+<arg>organization=FPT</arg>
+<arg>role=QA</arg>
+<arg>months_of_experience=12</arg>
+<arg>is_join_experience_section=true</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220915 16:10:38.530" level="INFO">${updated_attender} = {'full_name': 'Duong_edited', 'date_of_birth': '1993-02-12T07:34:53.135Z', 'email': 'duong@gmail.com', 'organization': 'FPT', 'role': 'QA', 'months_of_experience': '12', 'is_join_experience_section': ...</msg>
+<status status="PASS" starttime="20220915 16:10:38.530" endtime="20220915 16:10:38.530"/>
+</kw>
+<kw name="API - 200 - Update attender">
+<arg>${id}</arg>
+<arg>${updated_attender}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Accept=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220915 16:10:38.531" level="INFO">${headers} = {'Accept': 'application/json'}</msg>
+<status status="PASS" starttime="20220915 16:10:38.531" endtime="20220915 16:10:38.531"/>
+</kw>
+<kw name="Put" library="REST">
+<arg>${host}:${port}/tech-talk/attenders/${id}</arg>
+<arg>headers=${headers}</arg>
+<arg>body=${attender}</arg>
+<tag>http</tag>
+<doc>*Sends a PUT request to the endpoint.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.531" endtime="20220915 16:10:38.672"/>
+</kw>
+<kw name="Rest Extract" library="rest_util">
+<var>${response}</var>
+<msg timestamp="20220915 16:10:38.673" level="INFO">
+{
+    "request": {
+        "method": "PUT",
+        "url": "http://149.28.141.129:8765/tech-talk/attenders/56",
+        "scheme": "http",
+        "netloc": "149.28.141.129:8765",
+        "path": "/tech-talk/attenders/56",
+        "query": {},
+        "body": {
+            "full_name": "Duong_edited",
+            "date_of_birth": "1993-02-12T07:34:53.135Z",
+            "email": "duong@gmail.com",
+            "organization": "FPT",
+            "role": "QA",
+            "months_of_experience": "12",
+            "is_join_experience_section": "true"
+        },
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "User-Agent": "RESTinstance/1.0.0rc4"
+        },
+        "proxies": {},
+        "timeout": [
+            null,
+            null
+        ],
+        "cert": null,
+        "sslVerify": true,
+        "allowRedirects": true,
+        "timestamp": {
+            "utc": "2022-09-15T09:10:38.670628+00:00",
+            "local": "2022-09-15T16:10:38.670628+07:00"
+        }
+    },
+    "response": {
+        "seconds": 0.13702,
+        "status": 200,
+        "body": {
+            "status": {
+                "code": "success",
+                "message": "Success"
+            },
+            "data": null
+        },
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Transfer-Encoding": "chunked",
+            "Date": "Thu, 15 Sep 2022 09:10:38 GMT"
+        }
+    }
+}</msg>
+<msg timestamp="20220915 16:10:38.673" level="INFO">${response} = {'request': {'method': 'PUT', 'url': 'http://149.28.141.129:8765/tech-talk/attenders/56', 'scheme': 'http', 'netloc': '149.28.141.129:8765', 'path': '/tech-talk/attenders/56', 'query': {}, 'body': {'f...</msg>
+<status status="PASS" starttime="20220915 16:10:38.672" endtime="20220915 16:10:38.673"/>
+</kw>
+<kw name="Common - Http status code is &quot;200&quot;" library="api_keywords" sourcename="Common - Http status code is &quot;${code}&quot;">
+<kw name="Integer" library="REST">
+<arg>response status</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON integer.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.674" endtime="20220915 16:10:38.674"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.673" endtime="20220915 16:10:38.675"/>
+</kw>
+<kw name="Common - status code is &quot;success&quot;" library="api_keywords" sourcename="Common - status code is &quot;${code}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.code</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.675" endtime="20220915 16:10:38.700"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.675" endtime="20220915 16:10:38.700"/>
+</kw>
+<kw name="Common - status message is &quot;Success&quot;" library="api_keywords" sourcename="Common - status message is &quot;${message}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.message</arg>
+<arg>${message}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.701" endtime="20220915 16:10:38.723"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.700" endtime="20220915 16:10:38.723"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.530" endtime="20220915 16:10:38.723"/>
+</kw>
+<kw name="Database - attender - Verify all information is correct" library="database_keywords">
+<arg>${id}</arg>
+<arg>${updated_attender}</arg>
+<kw name="Database - Query attender by id" library="database_keywords">
+<var>${actual_attender}</var>
+<arg>${id}</arg>
+<kw name="Query" library="DatabaseLibrary">
+<var>${attender}</var>
+<arg>SELECT * FROM attender WHERE id = '${id}'</arg>
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional
+input `sansTran` to True to run command without an explicit transaction commit or rollback.
+Set optional input `returnAsDict` to True to return values as a list of dictionaries.</doc>
+<msg timestamp="20220915 16:10:38.724" level="INFO">Executing : Query  |  SELECT * FROM attender WHERE id = '56' </msg>
+<msg timestamp="20220915 16:10:38.850" level="INFO">${attender} = ((56, 'Duong_edited', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1),)</msg>
+<status status="PASS" starttime="20220915 16:10:38.724" endtime="20220915 16:10:38.850"/>
+</kw>
+<msg timestamp="20220915 16:10:38.852" level="INFO">${actual_attender} = (56, 'Duong_edited', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1)</msg>
+<status status="PASS" starttime="20220915 16:10:38.724" endtime="20220915 16:10:38.852"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[1]}</arg>
+<arg>${expected_attender["full_name"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.852" endtime="20220915 16:10:38.854"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[2]}</arg>
+<arg>${expected_attender["email"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.854" endtime="20220915 16:10:38.856"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${actual_dob_str}</var>
+<arg>${actual_attender[3]}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20220915 16:10:38.857" level="INFO">${actual_dob_str} = 1993-02-12 00:00:00</msg>
+<status status="PASS" starttime="20220915 16:10:38.856" endtime="20220915 16:10:38.857"/>
+</kw>
+<kw name="Get Substring" library="String">
+<var>${actual_dob}</var>
+<arg>${actual_dob_str}</arg>
+<arg>0</arg>
+<arg>10</arg>
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<msg timestamp="20220915 16:10:38.858" level="INFO">${actual_dob} = 1993-02-12</msg>
+<status status="PASS" starttime="20220915 16:10:38.858" endtime="20220915 16:10:38.858"/>
+</kw>
+<kw name="Convert To String" library="BuiltIn">
+<var>${expected_dob_str}</var>
+<arg>${expected_attender["date_of_birth"]}</arg>
+<doc>Converts the given item to a Unicode string.</doc>
+<msg timestamp="20220915 16:10:38.859" level="INFO">${expected_dob_str} = 1993-02-12T07:34:53.135Z</msg>
+<status status="PASS" starttime="20220915 16:10:38.858" endtime="20220915 16:10:38.859"/>
+</kw>
+<kw name="Get Substring" library="String">
+<var>${expected_dob}</var>
+<arg>${expected_dob_str}</arg>
+<arg>0</arg>
+<arg>10</arg>
+<doc>Returns a substring from ``start`` index to ``end`` index.</doc>
+<msg timestamp="20220915 16:10:38.860" level="INFO">${expected_dob} = 1993-02-12</msg>
+<status status="PASS" starttime="20220915 16:10:38.860" endtime="20220915 16:10:38.860"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_dob}</arg>
+<arg>${expected_dob}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.860" endtime="20220915 16:10:38.861"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[5]}</arg>
+<arg>${expected_attender["organization"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.862" endtime="20220915 16:10:38.864"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[6]}</arg>
+<arg>${expected_attender["role"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<status status="PASS" starttime="20220915 16:10:38.864" endtime="20220915 16:10:38.867"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${actual_attender[7]}</arg>
+<arg>${expected_attender["months_of_experience"]}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20220915 16:10:38.868" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20220915 16:10:38.867" endtime="20220915 16:10:38.868"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.723" endtime="20220915 16:10:38.868"/>
+</kw>
+<kw name="Database - Query attender by id" library="database_keywords">
+<var>${db_attender}</var>
+<arg>${id}</arg>
+<kw name="Query" library="DatabaseLibrary">
+<var>${attender}</var>
+<arg>SELECT * FROM attender WHERE id = '${id}'</arg>
+<doc>Uses the input `selectStatement` to query for the values that will be returned as a list of tuples. Set optional
+input `sansTran` to True to run command without an explicit transaction commit or rollback.
+Set optional input `returnAsDict` to True to return values as a list of dictionaries.</doc>
+<msg timestamp="20220915 16:10:38.869" level="INFO">Executing : Query  |  SELECT * FROM attender WHERE id = '56' </msg>
+<msg timestamp="20220915 16:10:38.994" level="INFO">${attender} = ((56, 'Duong_edited', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1),)</msg>
+<status status="PASS" starttime="20220915 16:10:38.869" endtime="20220915 16:10:38.994"/>
+</kw>
+<msg timestamp="20220915 16:10:38.996" level="INFO">${db_attender} = (56, 'Duong_edited', 'duong@gmail.com', datetime.datetime(1993, 2, 12, 0, 0), None, 'FPT', 'QA', 12, 1)</msg>
+<status status="PASS" starttime="20220915 16:10:38.868" endtime="20220915 16:10:38.996"/>
+</kw>
+<kw name="API - 200 - Delete attender">
+<arg>${id}</arg>
+<kw name="Create Dictionary" library="BuiltIn">
+<var>${headers}</var>
+<arg>Accept=application/json</arg>
+<doc>Creates and returns a dictionary based on the given ``items``.</doc>
+<msg timestamp="20220915 16:10:38.997" level="INFO">${headers} = {'Accept': 'application/json'}</msg>
+<status status="PASS" starttime="20220915 16:10:38.997" endtime="20220915 16:10:38.997"/>
+</kw>
+<kw name="Delete" library="REST">
+<arg>${host}:${port}/tech-talk/attenders/${id}</arg>
+<arg>headers=${headers}</arg>
+<tag>http</tag>
+<doc>*Sends a DELETE request to the endpoint.*</doc>
+<status status="PASS" starttime="20220915 16:10:38.998" endtime="20220915 16:10:39.142"/>
+</kw>
+<kw name="Rest Extract" library="rest_util">
+<var>${response}</var>
+<msg timestamp="20220915 16:10:39.143" level="INFO">
+{
+    "request": {
+        "method": "DELETE",
+        "url": "http://149.28.141.129:8765/tech-talk/attenders/56",
+        "scheme": "http",
+        "netloc": "149.28.141.129:8765",
+        "path": "/tech-talk/attenders/56",
+        "query": {},
+        "body": null,
+        "headers": {
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            "User-Agent": "RESTinstance/1.0.0rc4"
+        },
+        "proxies": {},
+        "timeout": [
+            null,
+            null
+        ],
+        "cert": null,
+        "sslVerify": true,
+        "allowRedirects": true,
+        "timestamp": {
+            "utc": "2022-09-15T09:10:39.140541+00:00",
+            "local": "2022-09-15T16:10:39.140541+07:00"
+        }
+    },
+    "response": {
+        "seconds": 0.138839,
+        "status": 200,
+        "body": {
+            "status": {
+                "code": "success",
+                "message": "Success"
+            },
+            "data": null
+        },
+        "headers": {
+            "Content-Type": "application/json;charset=UTF-8",
+            "Transfer-Encoding": "chunked",
+            "Date": "Thu, 15 Sep 2022 09:10:38 GMT"
+        }
+    }
+}</msg>
+<msg timestamp="20220915 16:10:39.143" level="INFO">${response} = {'request': {'method': 'DELETE', 'url': 'http://149.28.141.129:8765/tech-talk/attenders/56', 'scheme': 'http', 'netloc': '149.28.141.129:8765', 'path': '/tech-talk/attenders/56', 'query': {}, 'body': ...</msg>
+<status status="PASS" starttime="20220915 16:10:39.142" endtime="20220915 16:10:39.143"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:38.996" endtime="20220915 16:10:39.143"/>
+</kw>
+<kw name="Database - attender - Verify not existed attender" library="database_keywords">
+<arg>${id}</arg>
+<kw name="Set Variable" library="BuiltIn">
+<var>${sql}</var>
+<arg>SELECT * FROM attender WHERE id = '${id}'</arg>
+<doc>Returns the given values which can then be assigned to a variables.</doc>
+<msg timestamp="20220915 16:10:39.144" level="INFO">${sql} = SELECT * FROM attender WHERE id = '56'</msg>
+<status status="PASS" starttime="20220915 16:10:39.144" endtime="20220915 16:10:39.144"/>
+</kw>
+<kw name="Common - Execute SQL string and compare row count" library="database_keywords">
+<arg>${sql}</arg>
+<arg>0</arg>
+<kw name="Run Keyword" library="BuiltIn">
+<var>${output}</var>
+<arg>Row Count</arg>
+<arg>${SQL_string}</arg>
+<doc>Executes the given keyword with the given arguments.</doc>
+<kw name="Row Count" library="DatabaseLibrary">
+<arg>${SQL_string}</arg>
+<doc>Uses the input `selectStatement` to query the database and returns the number of rows from the query. Set
+optional input `sansTran` to True to run command without an explicit transaction commit or rollback.</doc>
+<msg timestamp="20220915 16:10:39.146" level="INFO">Executing : Row Count  |  SELECT * FROM attender WHERE id = '56' </msg>
+<status status="PASS" starttime="20220915 16:10:39.145" endtime="20220915 16:10:39.271"/>
+</kw>
+<msg timestamp="20220915 16:10:39.272" level="INFO">${output} = 0</msg>
+<status status="PASS" starttime="20220915 16:10:39.145" endtime="20220915 16:10:39.272"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${output}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220915 16:10:39.272" level="INFO">0</msg>
+<status status="PASS" starttime="20220915 16:10:39.272" endtime="20220915 16:10:39.272"/>
+</kw>
+<kw name="Log" library="BuiltIn">
+<arg>${input_row_count}</arg>
+<doc>Logs the given message with the given level.</doc>
+<msg timestamp="20220915 16:10:39.273" level="INFO">0</msg>
+<status status="PASS" starttime="20220915 16:10:39.273" endtime="20220915 16:10:39.273"/>
+</kw>
+<kw name="Should Be Equal As Strings" library="BuiltIn">
+<arg>${output}</arg>
+<arg>${input_row_count}</arg>
+<doc>Fails if objects are unequal after converting them to strings.</doc>
+<msg timestamp="20220915 16:10:39.274" level="INFO">Argument types are:
+&lt;class 'int'&gt;
+&lt;type 'unicode'&gt;</msg>
+<status status="PASS" starttime="20220915 16:10:39.273" endtime="20220915 16:10:39.274"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:39.144" endtime="20220915 16:10:39.274"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:39.143" endtime="20220915 16:10:39.274"/>
+</kw>
+<kw name="Common - Http status code is &quot;200&quot;" library="api_keywords" sourcename="Common - Http status code is &quot;${code}&quot;">
+<kw name="Integer" library="REST">
+<arg>response status</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON integer.*</doc>
+<status status="PASS" starttime="20220915 16:10:39.275" endtime="20220915 16:10:39.276"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:39.274" endtime="20220915 16:10:39.276"/>
+</kw>
+<kw name="Common - status code is &quot;success&quot;" library="api_keywords" sourcename="Common - status code is &quot;${code}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.code</arg>
+<arg>${code}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:39.277" endtime="20220915 16:10:39.301"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:39.276" endtime="20220915 16:10:39.301"/>
+</kw>
+<kw name="Common - status message is &quot;Success&quot;" library="api_keywords" sourcename="Common - status message is &quot;${message}&quot;">
+<kw name="String" library="REST">
+<arg>$.status.message</arg>
+<arg>${message}</arg>
+<tag>assertions</tag>
+<doc>*Asserts the field as JSON string.*</doc>
+<status status="PASS" starttime="20220915 16:10:39.302" endtime="20220915 16:10:39.325"/>
+</kw>
+<status status="PASS" starttime="20220915 16:10:39.301" endtime="20220915 16:10:39.325"/>
+</kw>
+<doc>This is a happy testcase when user register</doc>
+<status status="PASS" starttime="20220915 16:10:38.084" endtime="20220915 16:10:39.325"/>
+</test>
+<status status="PASS" starttime="20220915 16:10:36.783" endtime="20220915 16:10:39.325"/>
+</suite>
+<statistics>
+<total>
+<stat pass="1" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="1" fail="0" skip="0" id="s1" name="Techtalk Api">Techtalk Api</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
