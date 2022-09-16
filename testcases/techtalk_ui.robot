@@ -42,7 +42,7 @@ TC001 - Registration an attendee successfully
 
 *** Keywords ***
 I would like to register to the Ascend Tech Talk 2022
-    Common - Open ${host} with chrome browser
+    Common - Open ${host} with headlesschrome browser
 
 I am on the Registration page
     Common - Click on element    ${btn_registration}
