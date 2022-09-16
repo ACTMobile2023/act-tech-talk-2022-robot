@@ -25,7 +25,7 @@ ${dialog_success}       //span[text()='Lưu thành công']
 
 
 *** Test Cases ***
-TC001 - Registration an attendee successfully
+TC001_FN - Registration an attendee successfully
     Given I would like to register to the Ascend Tech Talk 2022
     When I am on the Registration page
     And I input the “Full name”    full_name=Duong Nguyen Quy
@@ -46,14 +46,17 @@ I would like to register to the Ascend Tech Talk 2022
 
 I am on the Registration page
     Common - Click on element    ${btn_registration}
+    Sleep    1s
 
 I input the “Full name”
     [Arguments]    ${full_name}
     Common - Input Text    ${input_fullname}    ${full_name}
+    Sleep    1s
 
 I input the “Email”
     [Arguments]    ${email}
     Common - Input Text    ${input_email}    ${email}
+    Sleep    1s
 
 I input the “Date of birth”
     [Arguments]    ${dob}
@@ -65,10 +68,12 @@ I input the “Date of birth”
 I input the “Avatar”
     [Arguments]    ${file_path}
     Common - Upload file    ${input_avatar}     ${file_path}
+    Sleep    1s
 
 I input the “Company or university”
     [Arguments]    ${company}
     Common - Input Text     ${input_orginazation}    ${company}
+    Sleep    1s
 
 
 I input the “Experienced position”
@@ -77,19 +82,23 @@ I input the “Experienced position”
     Common - Click on element     ${list_position}
     ${option}      Replace String      ${position_option}     {position}     ${position}
     Common - Click on element       ${option}
+    Sleep    1s
 
 
 I input the “Experience (in month)”
     [Arguments]     ${exp}
     Common - Input Text     ${input_exp}     ${exp}
+    Sleep    1s
 
 
 I tick the “Confirm to join experience section”
     [Arguments]    ${is_experience}
     Run keyword if     ${is_experience} is ${True}    Common - Click on element    ${chk_confirm}
+    Sleep    1s
 
 I click "Ok"
     Common - Click on element    ${btn_confirm}
+    Sleep    2s
 
 I can register successfully
     Wait until page contains element    ${dialog_success}
