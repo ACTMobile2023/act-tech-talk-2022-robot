@@ -88,7 +88,7 @@ TC005 - User cannot add a new attender with full_name is empty
     Common - status code is "general_error"
     Common - status message is "General Error"
 
-TC006 - User cannnot add a new attender with date_of_birth is empty
+TC006 - User cannot add a new attender with date_of_birth is empty
     [Documentation]    Backend should validate the date_of_birth to be not blank
     ${attender}     Create dictionary     full_name=Duong
     ...     date_of_birth=${EMPTY}
