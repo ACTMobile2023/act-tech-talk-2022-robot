@@ -42,7 +42,7 @@ TC001 - Registration an attendee successfully
 
 *** Keywords ***
 I would like to register to the Ascend Tech Talk 2022
-    Common - Open ${host} with headlesschrome browser
+    Common - Open ${host} with ${browser_to_run} browser
 
 I am on the Registration page
     Common - Click on element    ${btn_registration}
@@ -89,7 +89,7 @@ I tick the “Confirm to join experience section”
     Run keyword if     ${is_experience} is ${True}    Common - Click on element    ${chk_confirm}
 
 I click "Ok"
-    Common - Click on element    //button[@type='submit']
+    Common - Click on element    ${btn_confirm}
 
 I can register successfully
     Wait until page contains element    ${dialog_success}
