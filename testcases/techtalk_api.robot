@@ -102,6 +102,18 @@ TC006 - User cannot add a new attender with date_of_birth is empty
     Common - status code is "general_error"
     Common - status message is "General Error"
 
+TC007 - User cannnot get all attenders by using wrong path request path
+    [Documentation]    Backend should validate the date_of_birth to be not blank
+    ${attender}     Create dictionary     full_name=Duong
+    ...     date_of_birth=${EMPTY}
+    ...     email=duong@gmail.com
+    ...     organization=FPT    role=QA   months_of_experience=12
+    ...     is_join_experience_section=true
+
+    API - 404 - Get all the attenders wrong path
+    #Verify http status code and response body with http status code is 404 Not found
+    Common - Http status code is "404"
+
 
 *** Keywords ***
 API - 200 - Get all the attenders
@@ -114,6 +126,13 @@ API - 200 - Get all the attenders
     Common - status message is "Success"
     #Return list of attenders
     [Return]    ${response["response"]["body"]["data"]["attenders"]}
+
+API - 404 - Get all the attenders wrong path
+    ${headers}      create dictionary
+        ...         Accept=application/json
+    GET     http://149.28.141.129:8765/tech-talk/attender    headers=${headers}
+    ${response}    Rest Extract
+
 
 API - 200 - Add new attender
     [Arguments]    ${attender}
