@@ -8,7 +8,7 @@ DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 ENV=`basename $DIR`
 
 # Go out to root of git folder
-cd ../../
+# cd ../../
 
 # Set test result folder path
 RESULT_FOLDER="results/"$ENV
