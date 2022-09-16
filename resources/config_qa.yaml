@@ -8,4 +8,4 @@ db_username: techtalks2022
 db_password: Ascend@techtalks2022
 db_name: techtalks2022
 
-browser_to_run: chrome
+browser_to_run: headlesschrome

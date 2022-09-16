@@ -3,10 +3,13 @@ Resource     ./imports.robot
 
 Suite Teardown    Close all browsers
 
+Test Teardown     Close browser
+
 
 *** Variables ***
 ${resource_path}     ${CURDIR}/../resources
 
+#Homepage
 ${btn_registration}     //button[contains(@class, 'ant-btn-link')]/span[text()='Đăng ký tham gia']
 ${input_fullname}       //input[@id='full_name']
 ${input_email}          //input[@id='email']
@@ -21,7 +24,16 @@ ${input_exp}            //input[@id='months_of_experience']
 ${chk_confirm}          //input[@id='is_join_experience_section']
 ${btn_confirm}          //button[@type='submit']
 
-${dialog_success}       //span[text()='Lưu thành công']
+${dialog_success}       //span[text()='Successfully!']
+
+#Attender list page
+${btn_list_attender}    //button[contains(@class, 'ant-btn-link')]/span[text()='Danh sách người tham gia']
+${btn_delete_first_attender}    //tbody/tr[1]//button/span[text()='Delete']
+
+${btnYes}               //div[@class='ant-popover-buttons']/button/span[text()='Yes']
+${btnNo}                //div[@class='ant-popover-buttons']/button/span[text()='No']
+
+${dialog_delete_success}       //span[text()='Successfully deleted']
 
 
 *** Test Cases ***
@@ -38,6 +50,12 @@ TC001_FN - Registration an attendee successfully
     And I tick the “Confirm to join experience section”    is_experience=${True}
     And I click "Ok"
     Then I can register successfully
+
+TC002_FN - User can delete one user
+    Given I am on the attenders list page
+    When I click to delete the first attender
+    And I click to confirm delete
+    Then I am expecting delete success message popup
 
 
 *** Keywords ***
@@ -73,7 +91,6 @@ I input the “Avatar”
 I input the “Company or university”
     [Arguments]    ${company}
     Common - Input Text     ${input_orginazation}    ${company}
-    Sleep    1s
 
 
 I input the “Experienced position”
@@ -82,19 +99,16 @@ I input the “Experienced position”
     Common - Click on element     ${list_position}
     ${option}      Replace String      ${position_option}     {position}     ${position}
     Common - Click on element       ${option}
-    Sleep    1s
 
 
 I input the “Experience (in month)”
     [Arguments]     ${exp}
     Common - Input Text     ${input_exp}     ${exp}
-    Sleep    1s
 
 
 I tick the “Confirm to join experience section”
     [Arguments]    ${is_experience}
     Run keyword if     ${is_experience} is ${True}    Common - Click on element    ${chk_confirm}
-    Sleep    1s
 
 I click "Ok"
     Common - Click on element    ${btn_confirm}
@@ -104,6 +118,18 @@ I can register successfully
     Wait until page contains element    ${dialog_success}
 
 
+#Attender list page
+I am on the attenders list page
+    Common - Open ${host} with ${browser_to_run} browser
+    Common - Click on element    ${btn_list_attender}
 
+I click to delete the first attender
+    Wait Until Page Contains Element     ${btn_delete_first_attender}
+    Common - Click on element    ${btn_delete_first_attender}
 
+I click to confirm delete
+    Common - Click on element    ${btnYes}
+    Sleep    2s
 
+I am expecting delete success message popup
+    Wait Until Page Contains Element    ${dialog_delete_success}
