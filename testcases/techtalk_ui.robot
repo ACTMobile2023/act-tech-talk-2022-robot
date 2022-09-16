@@ -3,10 +3,13 @@ Resource     ./imports.robot
 
 Suite Teardown    Close all browsers
 
+Test Teardown     Close browser
+
 
 *** Variables ***
 ${resource_path}     ${CURDIR}/../resources
 
+#Homepage
 ${btn_registration}     //button[contains(@class, 'ant-btn-link')]/span[text()='Đăng ký tham gia']
 ${input_fullname}       //input[@id='full_name']
 ${input_email}          //input[@id='email']
@@ -21,11 +24,20 @@ ${input_exp}            //input[@id='months_of_experience']
 ${chk_confirm}          //input[@id='is_join_experience_section']
 ${btn_confirm}          //button[@type='submit']
 
-${dialog_success}       //span[text()='Lưu thành công']
+${dialog_success}       //span[text()='Successfully!']
+
+#Attender list page
+${btn_list_attender}    //button[contains(@class, 'ant-btn-link')]/span[text()='Danh sách người tham gia']
+${btn_delete_first_attender}    //tbody/tr[1]//button/span[text()='Delete']
+
+${btnYes}               //div[@class='ant-popover-buttons']/button/span[text()='Yes']
+${btnNo}                //div[@class='ant-popover-buttons']/button/span[text()='No']
+
+${dialog_delete_success}       //span[text()='Successfully deleted']
 
 
 *** Test Cases ***
-TC001 - Registration an attendee successfully
+TC001_FN - Register an attendee successfully
     Given I would like to register to the Ascend Tech Talk 2022
     When I am on the Registration page
     And I input the “Full name”    full_name=Duong Nguyen Quy
@@ -39,6 +51,12 @@ TC001 - Registration an attendee successfully
     And I click "Ok"
     Then I can register successfully
 
+TC002_FN - User can delete one user
+    Given I am on the attenders list page
+    When I click to delete the first attender
+    And I click to confirm delete
+    Then I am expecting delete success message popup
+
 
 *** Keywords ***
 I would like to register to the Ascend Tech Talk 2022
@@ -46,14 +64,17 @@ I would like to register to the Ascend Tech Talk 2022
 
 I am on the Registration page
     Common - Click on element    ${btn_registration}
+    Sleep    1s
 
 I input the “Full name”
     [Arguments]    ${full_name}
     Common - Input Text    ${input_fullname}    ${full_name}
+    Sleep    1s
 
 I input the “Email”
     [Arguments]    ${email}
     Common - Input Text    ${input_email}    ${email}
+    Sleep    1s
 
 I input the “Date of birth”
     [Arguments]    ${dob}
@@ -65,6 +86,7 @@ I input the “Date of birth”
 I input the “Avatar”
     [Arguments]    ${file_path}
     Common - Upload file    ${input_avatar}     ${file_path}
+    Sleep    1s
 
 I input the “Company or university”
     [Arguments]    ${company}
@@ -90,11 +112,24 @@ I tick the “Confirm to join experience section”
 
 I click "Ok"
     Common - Click on element    ${btn_confirm}
+    Sleep    2s
 
 I can register successfully
     Wait until page contains element    ${dialog_success}
 
 
+#Attender list page
+I am on the attenders list page
+    Common - Open ${host} with ${browser_to_run} browser
+    Common - Click on element    ${btn_list_attender}
 
+I click to delete the first attender
+    Wait Until Page Contains Element     ${btn_delete_first_attender}
+    Common - Click on element    ${btn_delete_first_attender}
 
+I click to confirm delete
+    Common - Click on element    ${btnYes}
+    Sleep    2s
 
+I am expecting delete success message popup
+    Wait Until Page Contains Element    ${dialog_delete_success}

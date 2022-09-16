@@ -115,6 +115,7 @@ API - 200 - Get all the attenders
     #Return list of attenders
     [Return]    ${response["response"]["body"]["data"]["attenders"]}
 
+
 API - 200 - Add new attender
     [Arguments]    ${attender}
     ${headers}      create dictionary
