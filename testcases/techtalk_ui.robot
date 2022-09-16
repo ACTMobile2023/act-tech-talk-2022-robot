@@ -37,7 +37,7 @@ ${dialog_delete_success}       //span[text()='Successfully deleted']
 
 
 *** Test Cases ***
-TC001_FN - Registration an attendee successfully
+TC001_FN - Register an attendee successfully
     Given I would like to register to the Ascend Tech Talk 2022
     When I am on the Registration page
     And I input the “Full name”    full_name=Duong Nguyen Quy
