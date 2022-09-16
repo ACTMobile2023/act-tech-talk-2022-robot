@@ -7,7 +7,7 @@ Common - Open ${url} with ${browser} browser
     ...         acceptInsecureCerts=${true}
     ...         ignore-certificate-errors=${true}
 
-    Run Keyword If    '${browser}' == 'chrome'     Run Keywords     Open Browser    ${url}    ${browser}    desired_capabilities=${desired_capabilities}
+    Run Keyword If    '${browser}' == 'chrome'     Run Keywords     Open Browser    ${url}    headlesschrome    desired_capabilities=${desired_capabilities}
     ...     AND     Common - Maximize browser window
     ...     ELSE IF   '${browser}' == 'headlesschrome'
     ...     Run keyword      Start Chrome in headless mode    ${url}
