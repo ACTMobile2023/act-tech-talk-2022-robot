@@ -84,7 +84,7 @@ TC005 - User cannot add a new attender with full_name is empty
 
     API - 500 - Add new attender    ${attender}
     #Verify http status code and response body with success message
-    Common - Http status code is "500"
+    Common - Http status code is "400"
     Common - status code is "general_error"
     Common - status message is "General Error"
 
@@ -98,7 +98,7 @@ TC006 - User cannot add a new attender with date_of_birth is empty
 
     API - 500 - Add new attender    ${attender}
     #Verify http status code and response body with success message
-    Common - Http status code is "500"
+    Common - Http status code is "400"
     Common - status code is "general_error"
     Common - status message is "General Error"
 
