@@ -69,7 +69,7 @@ TC004 - User cannot add a new attender with wrong DOB format
     ...     organization=FPT    role=QA   months_of_experience=12
     ...     is_join_experience_section=true
 
-    API - 500 - Add new attender    ${attender}
+    API - Error - Add new attender    ${attender}
     #Verify http status code and response body with success message
     Common - Http status code is "500"
     Common - status code is "general_error"
@@ -82,11 +82,11 @@ TC005 - User cannot add a new attender with full_name is empty
     ...     organization=FPT    role=QA   months_of_experience=12
     ...     is_join_experience_section=true
 
-    API - 500 - Add new attender    ${attender}
+    API - Error - Add new attender    ${attender}
     #Verify http status code and response body with success message
     Common - Http status code is "400"
-    Common - status code is "general_error"
-    Common - status message is "General Error"
+    Common - status code is "bad_request"
+    #Common - status message is "General Error"
 
 TC006 - User cannot add a new attender with date_of_birth is empty
     [Documentation]    Backend should validate the date_of_birth to be not blank
@@ -96,11 +96,11 @@ TC006 - User cannot add a new attender with date_of_birth is empty
     ...     organization=FPT    role=QA   months_of_experience=12
     ...     is_join_experience_section=true
 
-    API - 500 - Add new attender    ${attender}
+    API - Error - Add new attender    ${attender}
     #Verify http status code and response body with success message
     Common - Http status code is "400"
-    Common - status code is "general_error"
-    Common - status message is "General Error"
+    Common - status code is "bad_request"
+    #Common - status message is "General Error"
 
 
 *** Keywords ***
@@ -130,7 +130,7 @@ API - 200 - Add new attender
     Common - status message is "Success"
     [Return]    ${id}
 
-API - 500 - Add new attender
+API - Error - Add new attender
     [Arguments]    ${attender}
     ${headers}      create dictionary
         ...         Accept=application/json
